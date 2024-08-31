@@ -22,6 +22,8 @@ io.on("connection", (socket) => {
     users[socket.id] = username;
     console.log(users)
     io.emit('user-connected', username);
+
+    io.emit('update-user-count', Object.keys(users).length);
   });
 
   socket.on('send-message', (msg) => {
@@ -34,6 +36,8 @@ io.on("connection", (socket) => {
       io.emit('user-disconnected', username); // Notify all users about the disconnection
       console.log(`${username} disconnected`);
       delete users[socket.id]; // Remove the user from the list
+
+      io.emit('update-user-count', Object.keys(users).length);
     }
   });
 });
